@@ -180,7 +180,7 @@ QMenu *findSubMenu(const QString &name, const QMenu &menu)
             return subMenu;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 QMenu *createSubMenus(QString *name, QMenu *menu)
@@ -332,19 +332,19 @@ bool isItemActivationShortcut(const QKeySequence &shortcut)
 
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     : QMainWindow(parent)
-    , cm(NULL)
+    , cm(nullptr)
     , ui(new Ui::MainWindow)
-    , m_menuItem(NULL)
+    , m_menuItem(nullptr)
     , m_trayMenu( new TrayMenu(this) )
-    , m_tray(NULL)
+    , m_tray(nullptr)
     , m_clipboardStoringDisabled(false)
     , m_actionToggleClipboardStoring()
     , m_sharedData(new ClipboardBrowserShared(itemFactory))
     , m_lastWindow()
-    , m_notifications(NULL)
+    , m_notifications(nullptr)
     , m_actionHandler(new ActionHandler(this))
-    , m_trayTab(NULL)
-    , m_commandDialog(NULL)
+    , m_trayTab(nullptr)
+    , m_commandDialog(nullptr)
     , m_canUpdateTitleFromScript(true)
     , m_iconSnip(false)
     , m_wasMaximized(false)
@@ -596,18 +596,18 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
     const QString quotedTab = quoteString(tab);
     QAction *actNew = menu.addAction( iconTabNew(), tr("&New Tab") );
     QAction *actRenameGroup =
-            isGroup ? menu.addAction( iconTabRename(), tr("Rename &Group %1").arg(quotedTab) ) : NULL;
+            isGroup ? menu.addAction( iconTabRename(), tr("Rename &Group %1").arg(quotedTab) ) : nullptr;
     QAction *actRename =
-            hasTab ? menu.addAction( iconTabRename(), tr("Re&name Tab %1").arg(quotedTab) ) : NULL;
+            hasTab ? menu.addAction( iconTabRename(), tr("Re&name Tab %1").arg(quotedTab) ) : nullptr;
     QAction *actRemove =
-            hasTab ? menu.addAction( iconTabRemove(), tr("Re&move Tab %1").arg(quotedTab) ) : NULL;
+            hasTab ? menu.addAction( iconTabRemove(), tr("Re&move Tab %1").arg(quotedTab) ) : nullptr;
     QAction *actRemoveGroup =
-            isGroup ? menu.addAction( iconTabRemove(), tr("Remove Group %1").arg(quotedTab) ) : NULL;
+            isGroup ? menu.addAction( iconTabRemove(), tr("Remove Group %1").arg(quotedTab) ) : nullptr;
 
     QAction *actIcon = menu.addAction( iconTabIcon(), tr("&Change Tab Icon") );
 
     QAction *act = menu.exec(pos);
-    if (act != NULL) {
+    if (act != nullptr) {
         if (act == actNew)
             newTab(tab);
         else if (act == actRenameGroup)
@@ -688,9 +688,9 @@ void MainWindow::updateItemPreview()
 
     QWidget *w = ui->dockWidgetItemPreview->isVisible() && !ui->tabWidget->isTabGroupSelected()
             ? browser()->currentItemWidget()
-            : NULL;
+            : nullptr;
 
-    ui->scrollAreaItemPreview->setVisible(w != NULL);
+    ui->scrollAreaItemPreview->setVisible(w != nullptr);
     ui->scrollAreaItemPreview->setWidget(w);
     if (w)
         w->show();
@@ -834,7 +834,7 @@ void MainWindow::automaticCommandTestFinished(const Command &command, bool passe
 
 void MainWindow::enableActionForCommand(QMenu *menu, const Command &command, bool enable)
 {
-    CommandAction *act = NULL;
+    CommandAction *act = nullptr;
     for (auto action : menu->findChildren<CommandAction*>()) {
         if (!action->isEnabled() && action->command().matchCmd == command.matchCmd) {
             act = action;
@@ -944,7 +944,7 @@ void MainWindow::setFilter(const QString &text)
 
 void MainWindow::updateNotifications()
 {
-    if (m_notifications == NULL)
+    if (m_notifications == nullptr)
         m_notifications = new NotificationDaemon(this);
 
     const Theme theme;
@@ -1022,7 +1022,7 @@ bool MainWindow::closeMinimizes() const
 
 NotificationDaemon *MainWindow::notificationDaemon()
 {
-    if (m_notifications == NULL)
+    if (m_notifications == nullptr)
         updateNotifications();
 
     return m_notifications;
@@ -1037,7 +1037,7 @@ ClipboardBrowser *MainWindow::createTab(
             ? findTabIndexExactMatch(name)
             : findTabIndex(name);
 
-    if (needSave != NULL)
+    if (needSave != nullptr)
         *needSave = (i == -1);
 
     if (i != -1)
@@ -1128,7 +1128,7 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
     QList<QKeySequence> usedShortcuts = m_disabledShortcuts;
 
     if (menu == m_menuItem)
-        m_activateCurrentItemAction = NULL;
+        m_activateCurrentItemAction = nullptr;
 
     for (const auto &command : commands) {
         QString name = command.name;
@@ -1258,7 +1258,7 @@ void MainWindow::initTray()
             m_tray->hide();
 
             delete m_tray;
-            m_tray = NULL;
+            m_tray = nullptr;
         }
 
         m_timerTrayAvailable.stop();
@@ -1754,7 +1754,7 @@ void MainWindow::loadSettings()
 
     initTray();
 
-    if (m_notifications != NULL)
+    if (m_notifications != nullptr)
         updateNotifications();
 
     updateIcon();
@@ -1904,7 +1904,7 @@ bool MainWindow::toggleMenu(ClipboardBrowser *browser)
     QApplication::setActiveWindow(m_trayMenu);
     stealFocus(*m_trayMenu);
 
-    m_trayTab = NULL;
+    m_trayTab = nullptr;
     return m_trayMenu->isVisible();
 }
 
@@ -1970,7 +1970,7 @@ void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
 void MainWindow::tabMenuRequested(const QPoint &pos, int tab)
 {
     ClipboardBrowser *c = getBrowser(tab);
-    if (c == NULL)
+    if (c == nullptr)
         return;
     const QString tabName = c->tabName();
     popupTabBarMenu(pos, tabName);
@@ -2224,10 +2224,10 @@ ClipboardBrowser *MainWindow::getTabForTrayMenu()
         return browser();
 
     if ( m_options.trayTabName.isEmpty() )
-        return m_options.clipboardTab.isEmpty() ? NULL : tab(m_options.clipboardTab);
+        return m_options.clipboardTab.isEmpty() ? nullptr : tab(m_options.clipboardTab);
 
     int i = findTabIndex(m_options.trayTabName);
-    return i != -1 ? browser(i) : NULL;
+    return i != -1 ? browser(i) : nullptr;
 }
 
 void MainWindow::onFilterChanged(const QRegExp &re)
@@ -2346,7 +2346,7 @@ void MainWindow::updateTrayMenuItems()
             m_trayMenu->addCustomAction(actions[i]);
     }
 
-    if (m_trayMenu->activeAction() == NULL)
+    if (m_trayMenu->activeAction() == nullptr)
         m_trayMenu->setActiveFirstEnabledAction();
 }
 
@@ -2440,7 +2440,7 @@ void MainWindow::openPreferences()
 
     cm = &configurationManager;
     configurationManager.exec();
-    cm = NULL;
+    cm = nullptr;
 }
 
 void MainWindow::openCommands()
@@ -2477,7 +2477,7 @@ void MainWindow::openCommands()
 ClipboardBrowser *MainWindow::browser(int index)
 {
     ClipboardBrowser *c = getBrowser(index);
-    if (c != NULL)
+    if (c != nullptr)
         c->loadItems();
     return c;
 }
@@ -2497,7 +2497,7 @@ ClipboardBrowser *MainWindow::browserForItem(const QModelIndex &index)
             return c;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 ClipboardBrowser *MainWindow::addTab(const QString &name)
@@ -2524,7 +2524,7 @@ void MainWindow::editNewItem()
 void MainWindow::pasteItems()
 {
     const QMimeData *data = clipboardData();
-    if (data == NULL)
+    if (data == nullptr)
         return;
 
     ClipboardBrowser *c = browser();
@@ -2699,7 +2699,7 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
         return act;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 void MainWindow::newTab(const QString &name)
@@ -2828,7 +2828,7 @@ void MainWindow::removeTab(bool ask, int tabIndex)
 
     ClipboardBrowser *c = getBrowser(tabIndex);
 
-    if ( c != NULL && w->count() > 1 ) {
+    if ( c != nullptr && w->count() > 1 ) {
         int answer = QMessageBox::Yes;
         if (ask) {
             answer = QMessageBox::question(

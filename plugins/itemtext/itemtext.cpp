@@ -208,14 +208,14 @@ ItemTextLoader::~ItemTextLoader()
 ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) const
 {
     if ( index.data(contentType::isHidden).toBool() )
-        return NULL;
+        return nullptr;
 
     QString text;
     bool isRichText = m_settings.value(optionUseRichText, true).toBool()
             && getRichText(index, &text);
 
     if ( !isRichText && !getText(index, &text) )
-        return NULL;
+        return nullptr;
 
     const int maxLines = m_settings.value(optionMaximumLines, 0).toInt();
     const int maxHeight = m_settings.value(optionMaximumHeight, 0).toInt();

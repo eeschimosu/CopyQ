@@ -959,10 +959,10 @@ public:
     }
 
     Input()
-        : m_key(0), m_xkey(0), m_modifiers(0) {}
+        : m_key(0), m_xkey(0), m_modifiers(nullptr) {}
 
     explicit Input(QChar x)
-        : m_key(x.unicode()), m_xkey(x.unicode()), m_modifiers(0), m_text(x)
+        : m_key(x.unicode()), m_xkey(x.unicode()), m_modifiers(nullptr), m_text(x)
     {
         if (x.isUpper())
             m_modifiers = Qt::ShiftModifier;
@@ -5857,7 +5857,7 @@ bool FakeVimHandler::Private::handleExMoveCommand(const ExCommand &cmd)
     setMark(QLatin1Char('>'), lastPosition);
 
     if (lines > 2)
-        showMessage(MessageInfo, FakeVimHandler::tr("%n lines moved.", 0, lines));
+        showMessage(MessageInfo, FakeVimHandler::tr("%n lines moved.", nullptr, lines));
 
     return true;
 }
@@ -6002,7 +6002,7 @@ bool FakeVimHandler::Private::handleExBangCommand(const ExCommand &cmd) // :!
         endEditBlock();
         leaveVisualMode();
         //qDebug() << "FILTER: " << command;
-        showMessage(MessageInfo, FakeVimHandler::tr("%n lines filtered.", 0,
+        showMessage(MessageInfo, FakeVimHandler::tr("%n lines filtered.", nullptr,
             input.count(QLatin1Char('\n'))));
     } else if (!result.isEmpty()) {
         emit q->extraInformationChanged(result);
@@ -6410,7 +6410,7 @@ void FakeVimHandler::Private::indentSelectedText(QChar typedChar)
 
     const int lines = endLine - beginLine + 1;
     if (lines > 2)
-        showMessage(MessageInfo, FakeVimHandler::tr("%n lines indented.", 0, lines));
+        showMessage(MessageInfo, FakeVimHandler::tr("%n lines indented.", nullptr, lines));
 }
 
 void FakeVimHandler::Private::indentText(const Range &range, QChar typedChar)
@@ -6467,7 +6467,7 @@ void FakeVimHandler::Private::shiftRegionRight(int repeat)
     const int lines = endLine - beginLine + 1;
     if (lines > 2) {
         showMessage(MessageInfo,
-            FakeVimHandler::tr("%n lines %1ed %2 time.", 0, lines)
+            FakeVimHandler::tr("%n lines %1ed %2 time.", nullptr, lines)
             .arg(repeat > 0 ? '>' : '<').arg(qAbs(repeat)));
     }
 }
@@ -7040,7 +7040,7 @@ void FakeVimHandler::Private::yankText(const Range &range, int reg)
     const int lines = document()->findBlock(range.endPos).blockNumber()
         - document()->findBlock(range.beginPos).blockNumber() + 1;
     if (lines > 2)
-        showMessage(MessageInfo, FakeVimHandler::tr("%n lines yanked.", 0, lines));
+        showMessage(MessageInfo, FakeVimHandler::tr("%n lines yanked.", nullptr, lines));
 }
 
 void FakeVimHandler::Private::transformText(const Range &range,
@@ -8444,9 +8444,9 @@ void FakeVimHandler::Private::getRegisterType(int reg, bool *isClipboard, bool *
         selection = false;
     }
 
-    if (isClipboard != 0)
+    if (isClipboard != nullptr)
         *isClipboard = clipboard;
-    if (isSelection != 0)
+    if (isSelection != nullptr)
         *isSelection = selection;
 }
 
@@ -8468,8 +8468,8 @@ FakeVimHandler::~FakeVimHandler()
 // gracefully handle that the parent editor is deleted
 void FakeVimHandler::disconnectFromEditor()
 {
-    d->m_textedit = 0;
-    d->m_plaintextedit = 0;
+    d->m_textedit = nullptr;
+    d->m_plaintextedit = nullptr;
 }
 
 bool FakeVimHandler::eventFilter(QObject *ob, QEvent *ev)
@@ -8480,7 +8480,7 @@ bool FakeVimHandler::eventFilter(QObject *ob, QEvent *ev)
 #endif
 
     // Catch mouse events on the viewport.
-    QWidget *viewport = 0;
+    QWidget *viewport = nullptr;
     if (d->m_plaintextedit)
         viewport = d->m_plaintextedit->viewport();
     else if (d->m_textedit)

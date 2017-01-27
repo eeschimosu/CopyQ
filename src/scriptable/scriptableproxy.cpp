@@ -290,7 +290,7 @@ void setGeometryWithoutSave(QWidget *window, const QRect &geometry)
 namespace detail {
 
 ScriptableProxyHelper::ScriptableProxyHelper(MainWindow *mainWindow)
-    : QObject(NULL)
+    : QObject(nullptr)
     , m_wnd(mainWindow)
     , m_tabName()
     , m_lock()
@@ -1070,10 +1070,10 @@ ClipboardBrowser *detail::ScriptableProxyHelper::fetchBrowser(const QString &tab
 
     ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->tab(tabName);
     if (!c)
-        return NULL;
+        return nullptr;
 
     c->loadItems();
-    return c->isLoaded() ? c : NULL;
+    return c->isLoaded() ? c : nullptr;
 }
 
 ClipboardBrowser *ScriptableProxyHelper::fetchBrowser() { return fetchBrowser(m_tabName); }

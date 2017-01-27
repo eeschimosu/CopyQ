@@ -83,7 +83,7 @@ bool needToSaveItemsAgain(const QAbstractItemModel &model, const ItemFactory &it
 ItemLoaderInterface *loadItems(ClipboardModel &model, ItemFactory *itemFactory)
 {
     if ( !createItemDirectory() )
-        return NULL;
+        return nullptr;
 
     const QString tabName = model.property("tabName").toString();
     const QString fileName = itemFileName(tabName);
@@ -97,7 +97,7 @@ ItemLoaderInterface *loadItems(ClipboardModel &model, ItemFactory *itemFactory)
             tmpFile.rename(fileName);
     }
 
-    ItemLoaderInterface *loader = NULL;
+    ItemLoaderInterface *loader = nullptr;
 
     model.setDisabled(true);
 

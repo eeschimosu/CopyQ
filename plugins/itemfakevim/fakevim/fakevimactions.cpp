@@ -137,13 +137,13 @@ void FakeVimSettings::writeSettings(QSettings *settings)
 
 SavedAction *FakeVimSettings::item(int code)
 {
-    QTC_ASSERT(m_items.value(code, 0), qDebug() << "CODE: " << code; return 0);
-    return m_items.value(code, 0);
+    QTC_ASSERT(m_items.value(code, nullptr), qDebug() << "CODE: " << code; return nullptr);
+    return m_items.value(code, nullptr);
 }
 
 SavedAction *FakeVimSettings::item(const QString &name)
 {
-    return m_items.value(m_nameToCode.value(name, -1), 0);
+    return m_items.value(m_nameToCode.value(name, -1), nullptr);
 }
 
 QString FakeVimSettings::trySetValue(const QString &name, const QString &value)
@@ -180,7 +180,7 @@ SavedAction *createAction(FakeVimSettings *instance, int code, const QVariant &v
 
 FakeVimSettings *theFakeVimSettings()
 {
-    static FakeVimSettings *s = 0;
+    static FakeVimSettings *s = nullptr;
     if (s)
         return s;
 
