@@ -370,8 +370,8 @@ QList<Command> ItemFactory::commands() const
     for ( const auto loader : enabledLoaders() ) {
         QList <Command> subCommands = loader->commands();
 
-        for (int i = 0; i < subCommands.size(); ++i)
-            subCommands[i].name.prepend(loader->name() + '|');
+        for (auto &subCommand : subCommands)
+            subCommand.name.prepend(loader->name() + '|');
 
         commands << subCommands;
     }
@@ -473,8 +473,7 @@ ItemLoaderList ItemFactory::enabledLoaders() const
 
 ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QModelIndex &index)
 {
-    for ( int i = 0; i < m_loaders.size(); ++i ) {
-        ItemLoaderInterface *loader = m_loaders[i];
+    for (auto loader : m_loaders) {
         if ( isLoaderEnabled(loader) ) {
             ItemWidget *newItem = loader->transform(item, index);
             if (newItem != NULL)
