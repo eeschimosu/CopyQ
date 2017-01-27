@@ -200,7 +200,7 @@ void ItemEditorWidget::initMenuItems()
 {
     Q_ASSERT(m_editor);
 
-    foreach (QAction *action, m_toolBar->actions())
+    for (auto action : m_toolBar->actions())
         delete action;
 
     QAction *act;

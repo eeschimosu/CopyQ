@@ -124,13 +124,13 @@ void FakeVimSettings::insertItem(int code, SavedAction *item,
 #ifndef FAKEVIM_STANDALONE
 void FakeVimSettings::readSettings(QSettings *settings)
 {
-    foreach (SavedAction *item, m_items)
+    for (auto item : m_items)
         item->readSettings(settings);
 }
 
 void FakeVimSettings::writeSettings(QSettings *settings)
 {
-    foreach (SavedAction *item, m_items)
+    for (auto item : m_items)
         item->writeSettings(settings);
 }
 #endif // FAKEVIM_STANDALONE

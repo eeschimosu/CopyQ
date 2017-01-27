@@ -106,7 +106,7 @@ void setIconNameForTabName(const QString &name, const QString &icon)
     settings.beginWriteArray("Tabs");
     int i = 0;
 
-    foreach ( const QString &tabName, icons.keys() ) {
+    for ( const auto &tabName : icons.keys() ) {
         settings.setArrayIndex(i++);
         settings.setValue("name", tabName);
         settings.setValue("icon", icons[tabName]);

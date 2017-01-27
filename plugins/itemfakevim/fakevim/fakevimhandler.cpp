@@ -435,7 +435,7 @@ static QRegExp vimPatternToQtPattern(QString needle, bool ignoreCaseOption, bool
     bool embraced = false;
     bool range = false;
     bool curly = false;
-    foreach (const QChar &c, needle) {
+    for (const auto &c : needle) {
         if (brace) {
             brace = false;
             if (c == QLatin1Char(']')) {
@@ -912,7 +912,7 @@ QDebug operator<<(QDebug ts, const ExCommand &cmd)
 
 QDebug operator<<(QDebug ts, const QList<QTextEdit::ExtraSelection> &sels)
 {
-    foreach (const QTextEdit::ExtraSelection &sel, sels)
+    for (const auto &sel : sels)
         ts << "SEL: " << sel.cursor.anchor() << sel.cursor.position();
     return ts;
 }
@@ -1505,7 +1505,7 @@ public:
 
     bool walk(const Inputs &inputs)
     {
-        foreach (const Input &input, inputs) {
+        for (const auto &input : inputs) {
             if (!walk(input))
                 return false;
         }
@@ -1543,7 +1543,7 @@ public:
     void setInputs(const Inputs &key, const Inputs &inputs, bool unique = false)
     {
         ModeMapping *current = &(*m_parent)[m_mode];
-        foreach (const Input &input, key)
+        for (const auto &input : key)
             current = &(*current)[input];
         if (!unique || current->value().isEmpty())
             current->setValue(inputs);
@@ -2866,7 +2866,7 @@ void FakeVimHandler::Private::clearPendingInput()
 void FakeVimHandler::Private::waitForMapping()
 {
     g.currentCommand.clear();
-    foreach (const Input &input, g.currentMap.currentInputs())
+    for (const auto &input : g.currentMap.currentInputs())
         g.currentCommand.append(input.toString());
     updateMiniBuffer();
 
@@ -5623,13 +5623,13 @@ bool FakeVimHandler::Private::handleExMapCommand(const ExCommand &cmd0) // :map
     //qDebug() << "MAPPING: " << modes << lhs << rhs;
     switch (type) {
         case Unmap:
-            foreach (char c, modes)
+            for (char c : modes)
                 MappingsIterator(&g.mappings, c, key).remove();
             break;
         case Map: // fall through
         case Noremap: {
             Inputs inputs(rhs, type == Noremap, silent);
-            foreach (char c, modes)
+            for (char c : modes)
                 MappingsIterator(&g.mappings, c).setInputs(key, inputs, unique);
             break;
         }
@@ -5647,7 +5647,7 @@ bool FakeVimHandler::Private::handleExHistoryCommand(const ExCommand &cmd)
         QString info;
         info += _("#  command history\n");
         int i = 0;
-        foreach (const QString &item, g.commandBuffer.historyItems()) {
+        for (const auto &item : g.commandBuffer.historyItems()) {
             ++i;
             info += QString::fromLatin1("%1 %2\n").arg(i, -8).arg(item);
         }
@@ -5677,7 +5677,7 @@ bool FakeVimHandler::Private::handleExRegisterCommand(const ExCommand &cmd)
     }
     QString info;
     info += _("--- Registers ---\n");
-    foreach (char reg, regs) {
+    for (char reg : regs) {
         QString value = quoteUnprintable(registerContents(reg));
         info += QString::fromLatin1("\"%1   %2\n").arg(reg).arg(value);
     }
@@ -6595,7 +6595,7 @@ void FakeVimHandler::Private::setupCharClass()
         m_charClass[i] = c.isSpace() ? 0 : 1;
     }
     const QString conf = config(ConfigIsKeyword).toString();
-    foreach (const QString &part, conf.split(QLatin1Char(','))) {
+    for (const auto &part : conf.split(QLatin1Char(','))) {
         if (part.contains(QLatin1Char('-'))) {
             const int from = someInt(part.section(QLatin1Char('-'), 0, 0));
             const int to = someInt(part.section(QLatin1Char('-'), 1, 1));
@@ -8016,7 +8016,7 @@ void FakeVimHandler::Private::replay(const QString &command, int repeat)
     clearCommandMode();
     Inputs inputs(command);
     for (int i = 0; i < repeat; ++i) {
-        foreach (const Input &in, inputs) {
+        for (const auto &in : inputs) {
             if (handleDefaultKey(in) != EventHandled)
                 return;
         }
@@ -8586,7 +8586,7 @@ void FakeVimHandler::handleInput(const QString &keys)
 {
     Inputs inputs(keys);
     d->enterFakeVim();
-    foreach (const Input &input, inputs)
+    for (const auto &input : inputs)
         d->handleKey(input);
     d->leaveFakeVim();
 }

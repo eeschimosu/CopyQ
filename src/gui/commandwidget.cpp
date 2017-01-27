@@ -46,7 +46,7 @@ QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enable
 {
     QStringList shortcutTexts;
 
-    foreach (const QKeySequence &shortcut, shortcuts)
+    for (const auto &shortcut : shortcuts)
         shortcutTexts.append(portableShortcutText(shortcut));
 
     if (!enabled && !shortcutTexts.isEmpty())
@@ -64,7 +64,7 @@ void deserializeShortcuts(
 
     bool enabled = !serializedShortcuts.isEmpty();
 
-    foreach (const QString &shortcutText, serializedShortcuts) {
+    for (const auto &shortcutText : serializedShortcuts) {
         if (shortcutText == globalShortcutsDisabled)
             enabled = false;
         else

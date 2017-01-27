@@ -439,7 +439,7 @@ void TabWidget::onTabsMoved(const QString &oldPrefix, const QString &newPrefix, 
         m_stackedWidget->removeWidget(w);
     }
 
-    foreach (int index, indexes) {
+    for (int index : indexes) {
         Q_ASSERT(index >= 0);
         Q_ASSERT(index < widgets.count());
         m_stackedWidget->insertWidget(-1, widgets[index]);
